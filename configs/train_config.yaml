@@ -1,0 +1,113 @@
+# configs/train_config.yaml
+# ─────────────────────────────────────────────
+# Master configuration for disaster detection training
+# ─────────────────────────────────────────────
+
+project:
+  name: "disaster_detection_fusion"
+  version: "1.0"
+  seed: 42
+
+# ── Dataset ──────────────────────────────────
+data:
+  mode:         "file"                 # options: file, synthetic
+  sar_root:     "data/processed/sar_patches"
+  tweet_root:   "data/processed/tweets_processed.csv"
+  label_file:   "data/processed/labels.csv"
+  split_ratios: [0.70, 0.15, 0.15]   # train / val / test
+  num_workers:  0                      # 0 required on Windows
+  pin_memory:   false                  # false for CPU-only runs
+  raw_paths:
+    sentinel1:    "data/raw/sentinel1"
+    bigearth_sar: "data/raw/bigearth_sar"
+    crisismmd:    "data/raw/crisisMMD"
+    humaid:       "data/raw/humaid"
+    credbank:     "data/raw/credbank"
+
+  sar:
+    patch_size: 256
+    bands: ["VV", "VH"]              # Sentinel-1 polarisations
+    normalize_mean: [0.485, 0.456]
+    normalize_std:  [0.229, 0.224]
+
+  tweet:
+    max_length: 128                  # BERTweet token limit
+    window_minutes: 30               # Temporal alignment window
+    min_credibility: 0.5             # Credibility score threshold
+    max_tweets_per_window: 50
+
+# ── Model ─────────────────────────────────────
+model:
+  sar_encoder:
+    backbone: "simple_cnn"            # options: resnet50, vit_base_patch16_224, simple_cnn
+    pretrained: false
+    output_dim: 512
+    freeze_layers: 0
+
+  text_encoder:
+    model_name: "simple_bow"          # simple_bow for CPU-only, vinai/bertweet-base for GPU
+    output_dim: 512
+    freeze_layers: 0
+
+  temporal_alignment:
+    window_size: 30                   # minutes
+    d_model: 512
+    n_heads: 4
+    dropout: 0.1
+
+  cross_attention:
+    d_model: 512
+    n_heads: 8
+    n_layers: 2
+    dropout: 0.1
+    ffn_dim: 2048
+
+  classifier:
+    hidden_dim: 256
+    dropout: 0.3
+    num_disaster_types: 6            # flood, earthquake, wildfire, cyclone, landslide, none
+    num_severity_levels: 3           # low, medium, high
+
+# ── Training ──────────────────────────────────
+training:
+  epochs: 10
+  batch_size: 32
+  grad_accum_steps: 2
+
+  optimizer:
+    name: "adamw"
+    lr: 2.0e-4
+    weight_decay: 1.0e-4
+    betas: [0.9, 0.999]
+
+  scheduler:
+    name: "cosine_warmup"
+    warmup_epochs: 5
+    min_lr: 1.0e-6
+
+  loss:
+    binary_weight: 1.0
+    type_weight: 1.5
+    severity_weight: 0.8
+    focal_gamma: 2.0                 # focal loss for class imbalance
+
+  early_stopping:
+    patience: 10
+    metric: "val_f1_macro"
+
+  mixed_precision: false              # requires CUDA GPU
+  gradient_clip: 1.0
+
+# ── Logging ────────────────────────────────────
+logging:
+  log_dir: "logs/"
+  checkpoint_dir: "checkpoints/"
+  save_top_k: 3
+  log_every_n_steps: 50
+
+# ── Inference ──────────────────────────────────
+inference:
+  model_path: "checkpoints/best_model.pt"
+  batch_size: 16
+  threshold: 0.5
+  device: "cuda"

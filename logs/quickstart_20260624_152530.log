@@ -1,0 +1,8 @@
+2026-06-24 15:25:30 | INFO     | Log file: c:\Users\sheen\Downloads\disaster_detection_complete\disaster_detection\logs\quickstart_20260624_152530.log
+2026-06-24 15:27:06 | INFO     | === Quick Training on Synthetic Data ===
+2026-06-24 15:27:06 | INFO     | Device: cpu
+2026-06-24 15:27:06 | INFO     | Building synthetic dataset with 1000 samples...
+2026-06-24 15:27:06 | INFO     | Dataset: 700 train, 150 val
+2026-06-24 15:27:06 | INFO     | SAREncoder: Using simple CNN backbone (timm not available)
+2026-06-24 15:27:06 | INFO     | TextEncoder: Using simple BOW fallback encoder
+2026-06-24 15:27:07 | INFO     | Parameters: 40,461,581

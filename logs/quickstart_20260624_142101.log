@@ -1,0 +1,47 @@
+2026-06-24 14:21:01 | INFO     | Log file: C:\Users\sheen\Downloads\disaster_detection_complete\disaster_detection\logs\quickstart_20260624_142101.log
+2026-06-24 14:21:01 | INFO     | === Streaming Pipeline ===
+2026-06-24 14:21:01 | INFO     | Source: mock  |  Mode: tweet_only
+2026-06-24 14:21:01 | INFO     | Tweet interval: 1.5s  |  SAR interval: 15.0s
+2026-06-24 14:21:06 | WARNING  | Failed to connect to Kafka at localhost:9092: NoBrokersAvailable. Falling back to mock producer.
+2026-06-24 14:21:06 | INFO     | [Producer] Mock tweet producer started → tweets-raw
+2026-06-24 14:21:06 | INFO     | [Producer] Tweet producer thread started ✓
+2026-06-24 14:21:06 | INFO     | Mock tweet producer running...
+2026-06-24 14:21:06 | DEBUG    | [MOCK] → tweets-raw: {"text": "Cyclone warning for Kolkata. #cyclone", "lat": 13.889679867260764, "lon": 80.57695975416107, "timestamp": "202
+2026-06-24 14:21:08 | DEBUG    | [MOCK] → tweets-raw: {"text": "Flooding in Kolkata! Roads underwater. #flood", "lat": 18.708498329799614, "lon": 72.76560994187712, "timestam
+2026-06-24 14:21:08 | INFO     | [Stream] Starting Spark streaming pipeline (Ctrl-C to stop)...
+2026-06-24 14:21:09 | DEBUG    | [MOCK] → tweets-raw: {"text": "Cyclone warning for Kolkata. #cyclone", "lat": 12.608853200872824, "lon": 79.8390855552575, "timestamp": "2026
+2026-06-24 14:21:11 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Chennai! Building damage. #earthquake", "lat": 27.6987622571043, "lon": 77.49188163864312, 
+2026-06-24 14:21:12 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Hyderabad. #wildfire", "lat": 33.42000444613263, "lon": 73.29009101444547, "timestamp"
+2026-06-24 14:21:14 | DEBUG    | [MOCK] → tweets-raw: {"text": "Flooding in Kolkata! Roads underwater. #flood", "lat": 19.27129705260274, "lon": 72.48438893821321, "timestamp
+2026-06-24 14:21:15 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Delhi! Building damage. #earthquake", "lat": 28.841701349248094, "lon": 76.29080845909253, 
+2026-06-24 14:21:17 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Mumbai. #wildfire", "lat": 34.782155555228854, "lon": 73.9596950108445, "timestamp": "
+2026-06-24 14:21:18 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Bangalore. #wildfire", "lat": 33.40491736220775, "lon": 74.4522433459643, "timestamp":
+2026-06-24 14:21:20 | DEBUG    | [MOCK] → tweets-raw: {"text": "Cyclone warning for Chennai. #cyclone", "lat": 12.85814674249815, "lon": 79.7770879673647, "timestamp": "2026-
+2026-06-24 14:21:20 | DEBUG    | Produced 10 mock tweets
+2026-06-24 14:21:21 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Kolkata. #landslide", "lat": 28.050649859202593, "lon": 84.76293260665497, "timestam
+2026-06-24 14:21:23 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Chennai. #wildfire", "lat": 34.78155964534132, "lon": 74.5990116928503, "timestamp": "
+2026-06-24 14:21:24 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Delhi. #landslide", "lat": 28.01606649981094, "lon": 85.37879021511202, "timestamp":
+2026-06-24 14:21:26 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Chennai. #landslide", "lat": 28.07845130644686, "lon": 85.75538336484473, "timestamp
+2026-06-24 14:21:27 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Chennai. #landslide", "lat": 28.411733832613177, "lon": 86.22910917955546, "timestam
+2026-06-24 14:21:29 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Hyderabad. #wildfire", "lat": 33.516826054847456, "lon": 73.0936184847668, "timestamp"
+2026-06-24 14:21:30 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Mumbai. #wildfire", "lat": 34.88946692130827, "lon": 73.31946783005279, "timestamp": "
+2026-06-24 14:21:32 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Mumbai. #landslide", "lat": 27.490620582283388, "lon": 85.59683340653686, "timestamp
+2026-06-24 14:21:33 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Bangalore! Building damage. #earthquake", "lat": 28.992994632828267, "lon": 77.789407776523
+2026-06-24 14:21:35 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Kolkata. #landslide", "lat": 28.371820648090107, "lon": 86.07668080953648, "timestam
+2026-06-24 14:21:35 | DEBUG    | Produced 20 mock tweets
+2026-06-24 14:21:36 | DEBUG    | [MOCK] → tweets-raw: {"text": "Flooding in Delhi! Roads underwater. #flood", "lat": 18.74670618635235, "lon": 72.08161242123973, "timestamp":
+2026-06-24 14:21:38 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Bangalore. #landslide", "lat": 28.246013235153647, "lon": 85.67691566301723, "timest
+2026-06-24 14:21:39 | DEBUG    | [MOCK] → tweets-raw: {"text": "Cyclone warning for Kolkata. #cyclone", "lat": 13.895569461968131, "lon": 80.35313466682827, "timestamp": "202
+2026-06-24 14:21:41 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Hyderabad! Building damage. #earthquake", "lat": 29.021517883103456, "lon": 76.287729638241
+2026-06-24 14:21:42 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Hyderabad. #landslide", "lat": 27.956362179606472, "lon": 85.26289911484042, "timest
+2026-06-24 14:21:44 | DEBUG    | [MOCK] → tweets-raw: {"text": "Cyclone warning for Hyderabad. #cyclone", "lat": 12.212530645644431, "lon": 80.73668677974256, "timestamp": "2
+2026-06-24 14:21:45 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Hyderabad! Building damage. #earthquake", "lat": 27.933463294634368, "lon": 76.355806581110
+2026-06-24 14:21:47 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Bangalore! Building damage. #earthquake", "lat": 27.61631470673146, "lon": 76.5467201324701
+2026-06-24 14:21:48 | DEBUG    | [MOCK] → tweets-raw: {"text": "Wildfire spreading near Kolkata. #wildfire", "lat": 34.710600225748784, "lon": 73.6792947581263, "timestamp": 
+2026-06-24 14:21:50 | DEBUG    | [MOCK] → tweets-raw: {"text": "Flooding in Kolkata! Roads underwater. #flood", "lat": 18.533243500369405, "lon": 73.24530223620934, "timestam
+2026-06-24 14:21:50 | DEBUG    | Produced 30 mock tweets
+2026-06-24 14:21:51 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Hyderabad! Building damage. #earthquake", "lat": 28.07564186122135, "lon": 77.5986263736018
+2026-06-24 14:21:53 | DEBUG    | [MOCK] → tweets-raw: {"text": "Earthquake shaking Mumbai! Building damage. #earthquake", "lat": 28.577922423970104, "lon": 77.19733734165378,
+2026-06-24 14:21:54 | DEBUG    | [MOCK] → tweets-raw: {"text": "Landslide blocks roads in Bangalore. #landslide", "lat": 28.258271326311036, "lon": 84.53579840347813, "timest
+2026-06-24 14:21:54 | ERROR    | [Stream] Streaming job error: [JAVA_GATEWAY_EXITED] Java gateway process exited before sending its port number.
+2026-06-24 14:21:54 | INFO     | [Stream] Streaming pipeline stopped.

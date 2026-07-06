@@ -1,0 +1,98 @@
+# configs/streaming_config.yaml
+# ─────────────────────────────────────────────────────────────────
+# Master configuration for the Apache Spark Structured Streaming
+# disaster-detection pipeline.
+#
+# Override any value with an environment variable:
+#   KAFKA_BOOTSTRAP_SERVERS, MODEL_PATH, etc.
+# ─────────────────────────────────────────────────────────────────
+
+# ── Kafka ─────────────────────────────────────────────────────────
+kafka:
+  bootstrap_servers: "localhost:9092"   # override: KAFKA_BOOTSTRAP_SERVERS
+  topics:
+    tweets_raw: "tweets-raw"
+    sar_raw:    "sar-raw"
+    alerts:     "alerts"
+  consumer:
+    max_offsets_per_trigger: 10000      # tweets-raw
+    sar_max_offsets:          1000      # sar-raw (smaller; SAR events are rare)
+    starting_offsets:         "latest"
+    fail_on_data_loss:        false
+
+# ── Spark Session ─────────────────────────────────────────────────
+spark:
+  app_name:              "DisasterDetection_Streaming"
+  local_mode:            true           # override: SPARK_LOCAL_MODE=false for cluster
+  shuffle_partitions:    8
+  executor_memory:       "4g"
+  driver_memory:         "2g"
+  checkpoint_dir:        "/tmp/spark_checkpoints"   # override: SPARK_CHECKPOINT_DIR
+  trigger_interval:      "500 milliseconds"
+  packages:
+    kafka:    "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.1"
+    postgres: "org.postgresql:postgresql:42.6.0"
+
+# ── Tweet Preprocessing ───────────────────────────────────────────
+tweet_preprocessing:
+  min_credibility:       0.30           # override: MIN_TWEET_CREDIBILITY
+  max_bot_score:         0.70           # override: MAX_BOT_SCORE
+  min_text_length:       5
+  watermark_delay:       "15 minutes"
+  window_duration:       "30 minutes"
+  window_slide:          "5 minutes"
+  min_tweets_per_window: 1             # minimum tweets to emit a window result
+  geohash_precision:     5             # ~4.9 km × 4.9 km cells
+
+# ── SAR Preprocessing ─────────────────────────────────────────────
+sar_preprocessing:
+  patch_size:            256
+  bands:                 ["VV", "VH"]
+  apply_lee_filter:      true
+  lee_kernel_size:       7
+  to_db:                 true
+  db_min:               -25.0
+  db_max:                5.0
+  watermark_delay:       "30 minutes"
+
+# ── Stream-Stream Join (Fusion mode) ──────────────────────────────
+fusion:
+  join_window_hours:     1             # SAR matched within ±1 hr of tweet window
+  mode:                  "tweet_only"  # tweet_only | fusion
+
+# ── Inference ─────────────────────────────────────────────────────
+inference:
+  model_path:            "checkpoints/best_model.pt"  # override: MODEL_PATH
+  device:                "cpu"
+  alert_threshold:       0.45           # fusion score above which is_disaster=True
+  disaster_types:        ["flood", "earthquake", "wildfire", "cyclone", "landslide", "none"]
+  severity_levels:       ["low", "medium", "high"]
+
+# ── Sinks ─────────────────────────────────────────────────────────
+sinks:
+  kafka:
+    enabled:     true
+    topic:       "alerts"
+  postgres:
+    enabled:     false
+    table:       "disaster_alerts_stream"
+    url:         "postgresql://disaster:disaster123@localhost:5432/disaster_db"
+  console:
+    enabled:     true
+    num_rows:    20
+    truncate:    false
+
+# ── Producers (for run_spark_streaming.py launcher) ───────────────
+producers:
+  social:
+    default_source: "mock"              # mock | bluesky | mastodon | twitter
+    mock_interval:  1.5                 # seconds between synthetic posts
+    disaster_ratio: 0.70               # fraction of mock posts that are disasters
+  sar:
+    watch_dir:      "data/raw/sentinel1"
+    poll_interval:  30                  # seconds
+
+# ── Logging ───────────────────────────────────────────────────────
+logging:
+  level:   "INFO"
+  logfile: "logs/streaming.log"
