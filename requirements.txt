@@ -1,0 +1,68 @@
+# Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.35.0
+timm>=0.9.0
+einops>=0.7.0
+
+# SAR / Remote Sensing
+rasterio>=1.3.0
+GDAL>=3.6.0
+pyproj>=3.5.0
+shapely>=2.0.0
+geopandas>=0.13.0
+sentinelsat>=1.1.1
+
+# NLP / Social Media
+tweepy>=4.14.0
+langdetect>=1.0.9
+emoji>=2.8.0
+geopy>=2.3.0
+
+# Big Data Pipeline
+kafka-python>=2.0.2
+pyspark>=3.4.0
+redis>=4.6.0
+
+# Streaming Pipeline extras
+websockets>=11.0.3        # Bluesky Jetstream WebSocket source
+sseclient-py>=1.8.0       # Mastodon SSE stream source
+findspark>=2.0.1          # Locate local Spark install automatically
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+Pillow>=10.0.0
+opencv-python>=4.8.0
+h5py>=3.9.0
+tqdm>=4.65.0
+PyYAML>=6.0.0
+
+# Geospatial
+pygeohash>=1.2.0
+folium>=0.14.0
+psycopg2-binary>=2.9.0
+SQLAlchemy>=2.0.0
+GeoAlchemy2>=0.13.0
+
+# API / Serving
+fastapi>=0.100.0
+uvicorn>=0.23.0
+torchserve>=0.8.0
+torch-model-archiver>=0.8.0
+
+# Visualization / Dashboard
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# Evaluation
+torchmetrics>=1.0.0
+scikit-learn>=1.3.0
+
+# Utilities
+python-dotenv>=1.0.0
+requests>=2.31.0
+boto3>=1.28.0
+loguru>=0.7.0

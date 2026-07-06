@@ -1,0 +1,46 @@
+# Dockerfile.inference
+# ──────────────────────────────────────────────────────────────────────────────
+# Builds the FastAPI inference server (inference/serve.py).
+# Exposes POST /predict  GET /health  GET /stats  GET /alerts/recent
+# ──────────────────────────────────────────────────────────────────────────────
+
+FROM python:3.10-slim
+
+# System deps: curl for health-check, gcc for wheel builds, libgomp for torch
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        gcc \
+        g++ \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install only the packages the inference server actually needs
+# (skip GDAL/rasterio/pyspark/etc. which are heavy and not required for inference)
+RUN pip install --no-cache-dir \
+    torch>=2.0.0 \
+    torchvision>=0.15.0 \
+    numpy>=1.24.0 \
+    fastapi>=0.100.0 \
+    "uvicorn[standard]>=0.23.0" \
+    pydantic>=2.0.0 \
+    loguru>=0.7.0 \
+    sqlalchemy>=2.0.0 \
+    psycopg2-binary>=2.9.0 \
+    redis>=4.6.0 \
+    kafka-python>=2.0.2 \
+    python-dotenv>=1.0.0 \
+    einops>=0.7.0 \
+    requests>=2.31.0
+
+# Copy project source
+COPY . .
+
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8000
+
+CMD ["python", "-m", "uvicorn", "inference.serve:app", \
+     "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]

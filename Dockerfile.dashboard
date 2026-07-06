@@ -1,0 +1,39 @@
+# Dockerfile.dashboard
+# ──────────────────────────────────────────────────────────────────────────────
+# Builds the Leaflet.js GIS dashboard (dashboard/app.py).
+# Serves the interactive map at GET /  and  GET /api/alerts/recent
+# ──────────────────────────────────────────────────────────────────────────────
+
+FROM python:3.10-slim
+
+# System deps: curl for health-check, gcc for wheel builds
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install only the packages the dashboard actually needs
+RUN pip install --no-cache-dir \
+    fastapi>=0.100.0 \
+    "uvicorn[standard]>=0.23.0" \
+    pydantic>=2.0.0 \
+    loguru>=0.7.0 \
+    sqlalchemy>=2.0.0 \
+    psycopg2-binary>=2.9.0 \
+    redis>=4.6.0 \
+    python-dotenv>=1.0.0 \
+    requests>=2.31.0 \
+    global-land-mask>=0.2.0
+
+# Copy project source
+COPY . .
+
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8080
+
+CMD ["python", "-m", "uvicorn", "dashboard.app:dashboard_app", \
+     "--host", "0.0.0.0", "--port", "8080", "--log-level", "info"]
